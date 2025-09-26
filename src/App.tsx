@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { moveMapIn2048Rule } from "./moveMapIn2048Rule";
-import type { Map2048, MoveResult } from "./moveMapIn2048Rule";
+import type { Map2048 } from "./moveMapIn2048Rule";
 
 const BOARD_SIZE = 4;
 
