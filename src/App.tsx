@@ -1,41 +1,44 @@
-import { useEffect, useState } from "react";
-import { moveMapIn2048Rule } from "./moveMapIn2048Rule";
-import type { Map2048 } from "./moveMapIn2048Rule";
+import { useEffect, useState } from 'react';
+import { moveMapIn2048Rule } from './moveMapIn2048Rule';
+import type { Map2048 } from './moveMapIn2048Rule';
 
 const BOARD_SIZE = 4;
 
 const App = () => {
   const [board, setBoard] = useState<Map2048>(() => {
-    const saved = localStorage.getItem("board");
+    const saved = localStorage.getItem('board');
     return saved ? JSON.parse(saved) : initBoard();
   });
   const [score, setScore] = useState<number>(() => {
-    const saved = localStorage.getItem("score");
+    const saved = localStorage.getItem('score');
     return saved ? Number(saved) : 0;
   });
   const [history, setHistory] = useState<{ board: Map2048; score: number }[]>(
-    [],
+    []
   );
   const [gameOver, setGameOver] = useState(false);
 
   // 저장
   useEffect(() => {
-    localStorage.setItem("board", JSON.stringify(board));
-    localStorage.setItem("score", String(score));
+    localStorage.setItem('board', JSON.stringify(board));
+    localStorage.setItem('score', String(score));
   }, [board, score]);
 
   // 방향키 이벤트
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (gameOver) return;
-      let direction: "up" | "down" | "left" | "right" | null = null;
-      if (e.key === "ArrowUp") direction = "up";
-      if (e.key === "ArrowDown") direction = "down";
-      if (e.key === "ArrowLeft") direction = "left";
-      if (e.key === "ArrowRight") direction = "right";
+      let direction: 'up' | 'down' | 'left' | 'right' | null = null;
+      if (e.key === 'ArrowUp') direction = 'up';
+      if (e.key === 'ArrowDown') direction = 'down';
+      if (e.key === 'ArrowLeft') direction = 'left';
+      if (e.key === 'ArrowRight') direction = 'right';
 
       if (direction) {
-        setHistory((prev) => [...prev, { board: structuredClone(board), score }]); // undo 저장
+        setHistory((prev) => [
+          ...prev,
+          { board: structuredClone(board), score },
+        ]); // undo 저장
         const { result, isMoved } = moveMapIn2048Rule(board, direction);
         if (isMoved) {
           const newBoard = addRandomTile(result);
@@ -47,8 +50,8 @@ const App = () => {
         }
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [board, score, gameOver]);
 
   const handleReset = () => {
@@ -80,7 +83,7 @@ const App = () => {
         {board.map((row, r) => (
           <div key={r} className="row">
             {row.map((cell, c) => (
-              <div key={c} className={`cell value-${cell ?? "empty"}`}>
+              <div key={c} className={`cell value-${cell ?? 'empty'}`}>
                 {cell}
               </div>
             ))}
@@ -97,7 +100,7 @@ export default App;
 /** 초기화 함수 */
 function initBoard(): Map2048 {
   const board: Map2048 = Array.from({ length: BOARD_SIZE }, () =>
-    Array.from({ length: BOARD_SIZE }, () => null),
+    Array.from({ length: BOARD_SIZE }, () => null)
   );
   return addRandomTile(addRandomTile(board));
 }
@@ -108,7 +111,7 @@ function addRandomTile(board: Map2048): Map2048 {
   board.forEach((row, r) =>
     row.forEach((cell, c) => {
       if (cell === null) empty.push([r, c]);
-    }),
+    })
   );
   if (empty.length === 0) return board;
 
@@ -126,7 +129,7 @@ function calcScore(prev: Map2048, next: Map2048): number {
       if (next[r][c] !== null && next[r][c]! > (cell ?? 0)) {
         score += next[r][c]! - (cell ?? 0);
       }
-    }),
+    })
   );
   return score;
 }

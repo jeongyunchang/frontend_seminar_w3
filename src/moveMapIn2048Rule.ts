@@ -1,9 +1,9 @@
-export type Cell = number | null;
+type Cell = number | null;
 export type Map2048 = Cell[][];
-type Direction = "up" | "left" | "right" | "down";
+type Direction = 'up' | 'left' | 'right' | 'down';
 type RotateDegree = 0 | 90 | 180 | 270;
 type DirectionDegreeMap = Record<Direction, RotateDegree>;
-export type MoveResult = { result: Map2048; isMoved: boolean };
+type MoveResult = { result: Map2048; isMoved: boolean };
 
 const rotateDegreeMap: DirectionDegreeMap = {
   up: 90,
@@ -21,9 +21,9 @@ const revertDegreeMap: DirectionDegreeMap = {
 
 export const moveMapIn2048Rule = (
   map: Map2048,
-  direction: Direction,
+  direction: Direction
 ): MoveResult => {
-  if (!validateMapIsNByM(map)) throw new Error("Map is not N by M");
+  if (!validateMapIsNByM(map)) throw new Error('Map is not N by M');
 
   const rotatedMap = rotateMapCounterClockwise(map, rotateDegreeMap[direction]);
   const { result, isMoved } = moveLeft(rotatedMap);
@@ -47,16 +47,26 @@ const rotateMapCounterClockwise = (
   const columnLength = map[0].length;
 
   switch (degree) {
-    case 0: return map;
-    case 90: return Array.from({ length: columnLength }, (_, c) =>
-      Array.from({ length: rowLength }, (_, r) => map[r][columnLength - c - 1])
-    );
-    case 180: return Array.from({ length: rowLength }, (_, r) =>
-      Array.from({ length: columnLength }, (_, c) => map[rowLength - r - 1][columnLength - c - 1])
-    );
-    case 270: return Array.from({ length: columnLength }, (_, c) =>
-      Array.from({ length: rowLength }, (_, r) => map[rowLength - r - 1][c])
-    );
+    case 0:
+      return map;
+    case 90:
+      return Array.from({ length: columnLength }, (_, c) =>
+        Array.from(
+          { length: rowLength },
+          (_, r) => map[r][columnLength - c - 1]
+        )
+      );
+    case 180:
+      return Array.from({ length: rowLength }, (_, r) =>
+        Array.from(
+          { length: columnLength },
+          (_, c) => map[rowLength - r - 1][columnLength - c - 1]
+        )
+      );
+    case 270:
+      return Array.from({ length: columnLength }, (_, c) =>
+        Array.from({ length: rowLength }, (_, r) => map[rowLength - r - 1][c])
+      );
   }
 };
 
@@ -72,12 +82,19 @@ const moveRowLeft = (row: Cell[]): { result: Cell[]; isMoved: boolean } => {
     (acc: { lastCell: Cell; result: Cell[] }, cell) => {
       if (cell === null) return acc;
       if (acc.lastCell === null) return { ...acc, lastCell: cell };
-      if (acc.lastCell === cell) return { result: [...acc.result, cell * 2], lastCell: null };
+      if (acc.lastCell === cell)
+        return { result: [...acc.result, cell * 2], lastCell: null };
       return { result: [...acc.result, acc.lastCell], lastCell: cell };
     },
     { lastCell: null, result: [] }
   );
   const result = [...reduced.result, reduced.lastCell];
-  const resultRow = Array.from({ length: row.length }, (_, i) => result[i] ?? null);
-  return { result: resultRow, isMoved: row.some((cell, i) => cell !== resultRow[i]) };
+  const resultRow = Array.from(
+    { length: row.length },
+    (_, i) => result[i] ?? null
+  );
+  return {
+    result: resultRow,
+    isMoved: row.some((cell, i) => cell !== resultRow[i]),
+  };
 };

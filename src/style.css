@@ -38,17 +38,43 @@ body {
   color: #776e65;
 }
 
-.cell.value-empty { background: #cdc1b4; }
-.cell.value-2 { background: #eee4da; }
-.cell.value-4 { background: #ede0c8; }
-.cell.value-8 { background: #f2b179; color: #f9f6f2; }
-.cell.value-16 { background: #f59563; color: #f9f6f2; }
-.cell.value-32 { background: #f67c5f; color: #f9f6f2; }
-.cell.value-64 { background: #f65e3b; color: #f9f6f2; }
-.cell.value-128 { background: #edcf72; color: #f9f6f2; }
+.cell.value-empty {
+  background: #cdc1b4;
+}
+.cell.value-2 {
+  background: #eee4da;
+}
+.cell.value-4 {
+  background: #ede0c8;
+}
+.cell.value-8 {
+  background: #f2b179;
+  color: #f9f6f2;
+}
+.cell.value-16 {
+  background: #f59563;
+  color: #f9f6f2;
+}
+.cell.value-32 {
+  background: #f67c5f;
+  color: #f9f6f2;
+}
+.cell.value-64 {
+  background: #f65e3b;
+  color: #f9f6f2;
+}
+.cell.value-128 {
+  background: #edcf72;
+  color: #f9f6f2;
+}
 
-.info { margin-bottom: 10px; }
-.score { font-size: 18px; margin: 5px; }
+.info {
+  margin-bottom: 10px;
+}
+.score {
+  font-size: 18px;
+  margin: 5px;
+}
 
 button {
   margin: 5px;
@@ -61,7 +87,9 @@ button {
   font-weight: bold;
 }
 
-button:hover { background: #9c8571; }
+button:hover {
+  background: #9c8571;
+}
 
 .game-over {
   margin-top: 15px;
