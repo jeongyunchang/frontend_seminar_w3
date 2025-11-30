@@ -1,11 +1,10 @@
 
-name: deploy-client
+name: deploy-dev
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   deploy:
@@ -31,10 +30,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ap-northeast-2
         run: |
-<<<<<<<< HEAD:.github/workflow/deploy-dev.yml
           aws s3 sync ./dist s3://2048-deploy-dev-jeongyun --delete
-          aws cloudfront create-invalidation --distribution-id E2A48ET2Z3ATWU --paths "/*"
-========
-          aws s3 sync ./dist s3://waffle-2025-deploy-jeongyun --delete
-          aws cloudfront create-invalidation --distribution-id E3RS2KTBT0SIVW --paths "/*"\
->>>>>>>> abab093 (s3):.github/workflows/deploy-client.yml
+          aws cloudfront create-invalidation --distribution-id E2A48ET2Z3ATWU --paths "/*"\
